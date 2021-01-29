@@ -4716,24 +4716,25 @@ const artistas = [
 ];
 
 
-const artistasSolistas = arr => {
-  let artistasSol = arr.filter(artista => {
-    return artista.solista
-  })
-  return artistasSol
-}
+// Una función que tome por parámetro un array de artistas y devuelva un array con les artistas que sean solistas.
+const artistasSolistas = arr => arr.filter(artista => artista.solista);
 
-console.log(artistasSolistas(artistas))
+console.log(artistasSolistas(artistas));
 
+
+// Una función que tome un parámetro "edad" y un array de artistas y devuelva un array con les artistas que tengan dicha edad.
 const artistasPorEdad = (edad, arr) => {
   let mismaEdad = arr.filter(artista => {
-    return edad === artista.edad 
-  })
-  return mismaEdad.length === 0 ? 'No hay coincidencia con la edad' : mismaEdad
-}
-console.log(artistasPorEdad(45, artistas))
-console.log(artistasPorEdad(39, artistas))
+    return edad === artista.edad; 
+  });
+  return mismaEdad.length === 0 ? 'No hay coincidencia con la edad' : mismaEdad;
+};
+console.log(artistasPorEdad(45, artistas));
+console.log(artistasPorEdad(39, artistas));
 
+
+// Una función que tome por parámetro "cantidadDeDiscos" y un array de artistas y devuelva un array con les artistas que tiene más de
+// esa cantidad de discos, ordenados de mayor a menor según cantidad de discos.
 const artistasConMasDiscosQue = (cantidadDiscos, arr) => {
   let artistasMasDiscos = arr
   .filter(artista => {
@@ -4741,102 +4742,126 @@ const artistasConMasDiscosQue = (cantidadDiscos, arr) => {
   })
   .sort((a,b) => {
     if (a.discos > b.discos) {
-      return -1
+      return -1;
     }
     else if (b.discos > a.discos) {
-      return 1
+      return 1;
     }
     else {
-      return 0
-    }
-  })
+      return 0;
+    };
+  });
 
-  return artistasMasDiscos
+  return artistasMasDiscos;
+};
 
-}
-console.log(artistasConMasDiscosQue(2, artistas))
+console.log(artistasConMasDiscosQue(2, artistas));
 
+
+// Una función que tome por parámetro un array de artistas y devuelva el objeto artista que vendió más entradas en su último recital.
 const artistaConMasEntradasVendidas = arr => {
   let masVenta = arr.reduce((acc, curr) => {
     if (acc.ultimoRecital.entradasVendidas > curr.ultimoRecital.entradasVendidas) {
-      return acc
+      return acc;
     }
     else {
-      return curr
-    }
-  })
- return masVenta
-} 
-console.log(artistaConMasEntradasVendidas(artistas))
+      return curr;
+    };
+  });
+ return masVenta;
+}; 
 
+console.log(artistaConMasEntradasVendidas(artistas));
+
+
+// Una función que tome por parámetro un array de artistas y devuelva el objeto artista que más recaudó en su último recital.
 const artistaConMayorRecaudacion = arr => {
   artistaMasRecaudo = arr.reduce((acc, curr) => {
-    let accRecaudacion = acc.ultimoRecital.entradasVendidas * acc.ultimoRecital.costoEntradas
-    let currRecaudacion = curr.ultimoRecital.entradasVendidas * curr.ultimoRecital.costoEntradas
+    let accRecaudacion = acc.ultimoRecital.entradasVendidas * acc.ultimoRecital.costoEntradas;
+    let currRecaudacion = curr.ultimoRecital.entradasVendidas * curr.ultimoRecital.costoEntradas;
 
     if (accRecaudacion > currRecaudacion) {
-      return acc
+      return acc;
     }
     else {
-      return curr
-    }
-  })
+      return curr;
+    };
+  });
 
-  return artistaMasRecaudo
-} 
-console.log(artistaConMayorRecaudacion(artistas))
+  return artistaMasRecaudo;
+};
 
+console.log(artistaConMayorRecaudacion(artistas));
+
+
+// Una función que tome por parámetro un parámetro "anio" y un array de artistas, y devuelva un array
+// con los artistas que tengan publicado al menos un disco en dicho año
 const artistasConDiscoEnAnio = (anio, arr) => {
-  let artistaDisco = arr.filter(artista => artista.discos.some(disco => disco.anioLanzamiento === anio))
-  return artistaDisco.length === 0 ? 'No hay artista con disco ese año' : artistaDisco
-}
-console.log(artistasConDiscoEnAnio(1993, artistas))
-console.log(artistasConDiscoEnAnio(2020, artistas))
+  let artistaDisco = arr.filter(artista => artista.discos.some(disco => disco.anioLanzamiento === anio));
+  return artistaDisco.length === 0 ? 'No hay artista con disco ese año' : artistaDisco;
+};
+
+console.log(artistasConDiscoEnAnio(1993, artistas));
+console.log(artistasConDiscoEnAnio(2020, artistas));
 
 
+// Una función que reciba como parametro un array de artistas y devuelva el objeto artista que más copias de discos en total vendió.
 const artistaConMasCopias = arr => {
   let masCopias = arr.reduce((acc, curr) => {
-    let currCopias = curr.discos.map(artista => {
-      return artista.copiasVendidas
-    })
-    .reduce((acc2, curr2) => acc2 + curr2, 0)
+    let currCopias = curr.discos
+    .reduce((acc2, curr2) => acc2 + curr2.copiasVendidas, 0);
 
     if (acc > currCopias) {
-      return acc
+      return acc;
     }
     else {
-      return currCopias
-    }
+      return currCopias;
+    };
 
-  }, 0)
+  }, 0);
   
   return arr.find(artista => {
     return (
       artista.discos
-      .map(art => art.copiasVendidas)
-      .reduce((acc3, curr3) => acc3 + curr3, 0) === masCopias
-    )
-  })
-
-}
+      .reduce((acc3, curr3) => acc3 + curr3.copiasVendidas, 0) === masCopias
+    );
+  });
+};
   
+console.log(artistaConMasCopias(artistas));
 
-// const intento = arr => {
-//   const artistaMasCopias = arr.find(artista => {
-//     return (
-//       artista.discos
-//         .map(art => art.copiasVendidas)
-//         .reduce((acc, curr) => {
-//           let sumarCopias = acc + curr
-//           if (acc > sumarCopias) {
-//             return acc
-//           }
-//           else {
-//             return sumarCopias
-//           }
-//         }, 0)
-//     )
-//   })
-//   return artistaMasCopias
-// }
-console.log(artistaConMasCopias(artistas))
+
+// Una función que tome por parámetro un array de artistas y devuelva un objeto donde cada "instrumento" 
+// es una propiedad y su valor la cantidad de artistas que tocan dicho instrumento
+const cantidadDeArtistasPorInstrumento = arr => {
+  return arr.reduce((acc, curr) => {
+    let instrumento = curr.instrumento;
+
+    if (!acc[instrumento]) {
+      acc[instrumento] = 1;
+    }
+    else {
+      acc[instrumento] = acc[instrumento] + 1;
+    };
+
+    return acc;
+  }, {});
+
+};
+
+console.log(cantidadDeArtistasPorInstrumento(artistas));
+
+
+// Una función que tome por parámetro un array de artistas y devuelva un objeto donde cada "género"
+//  es una propiedad y su valor la cantidad de artistas de dicho género.
+const cantidadDeArtistasPorGenero = arr => {
+  return arr.reduce((acc, curr) => {
+    let genero = curr.genero;
+
+    !acc[genero] ? acc[genero] = 1 : acc[genero] = acc[genero] + 1;
+
+    return acc;
+  }, {});
+};
+
+console.log(cantidadDeArtistasPorGenero(artistas));
